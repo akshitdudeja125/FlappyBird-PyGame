@@ -1,4 +1,3 @@
-import time
 import pygame
 import random
 import keyboard
@@ -72,10 +71,12 @@ obstacle_upper_Y = [random.randint(-820, -520) for i in range(4)]
 obstacle_lower_Y = [1100-abs(i) for i in obstacle_upper_Y]
 
 # FONT
-font_score = pygame.font.Font('Minecraft.ttf', 50)
-font_score_2 = pygame.font.Font('Minecraft.ttf', 150) 
-font_score_3 = pygame.font.Font('Minecraft.ttf', 100)
-font_score_4 = pygame.font.Font('Minecraft.ttf', 30)
+intro_font = pygame.font.Font("intro_font.ttf", 15)
+font_start = pygame.font.Font('Minecraft.ttf', 25)
+font1 = pygame.font.Font('Minecraft.ttf', 50)
+font2 = pygame.font.Font('Minecraft.ttf', 150) 
+font3 = pygame.font.Font('Minecraft.ttf', 100)
+font4 = pygame.font.Font('Minecraft.ttf', 20)
 
 # SCORE
 score = 0
@@ -93,7 +94,6 @@ end_game_change = -3
 attempt_no=1
 flap = 0
 restarter=0
-start_time=time.time()
 sound_played = 0
 score_added = False
 killed = False
@@ -158,17 +158,18 @@ while run_state:
             obstacle_change = 0
             for i in range(len(obstacle_X)):
                 obstacle_X[i] = 2000
-            play_again = font_score.render('press "q" to quit or "r" for restart', True, (0, 0, 0))
-            screen.blit(play_again, (195, 480))
-            # screen.blit(play_again, (330, 480))
+            play_again = font1.render('press "q" to quit or "r" for restart', True, (0, 0, 0))
+            screen.blit(play_again, (195, 480)) 
             screen.blit(score_Img, (500, 330))
-            sc = font_score.render(str(score), True, (0, 0, 0))
+            sc = font1.render(str(score), True, (0, 0, 0))
             screen.blit(sc, (555, 365))
-            bsc = font_score.render(str(highest_score), True, (0, 0, 0))
+            bsc = font1.render(str(highest_score), True, (0, 0, 0))
             screen.blit(bsc, (675, 365))
             end_game_X += end_game_change
         else:
-            sc = font_score_2.render(str(score), True, (0, 0, 0))
+            sc = font2.render(str(score), True, (0,0,0))
+            screen.blit(sc, (605, 15))
+            sc = font2.render(str(score), True, (255,255,255))
             screen.blit(sc, (600, 10))
 
         # Obstacle Movement
@@ -236,21 +237,20 @@ while run_state:
                 run_state = False
     
     else:
+        intro_screen = pygame.image.load('intro_screen.png')
+        screen.blit(intro_screen, (320, 120))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run_state = False
-        # if time.time()-start_time > 10:
-            # game_started = True
-        start_screen_text = font_score_3.render('FLAPPY  BIRD', True, (0, 0, 0))
-        screen.blit(start_screen_text, (290, 230))
-        
-        start_screen_text = font_score_4.render('Press "SPACE" to START', True, (0, 0, 0))
-        screen.blit(start_screen_text, (450, 430))
-
+        start_screen_text = font4.render('Press "SPACE" to PLAY!', True, (0, 0, 0))
+        screen.blit(start_screen_text, (500, 400))
         try:
             if keyboard.is_pressed('space'):
                 game_started = True
         except:
             pass
-
+    intro_text = intro_font.render("©AkiDudeja125", True, (0, 0, 0))
+    screen.blit(intro_text, (5, 695))
+    intro_text = intro_font.render("@akshitdudeja125", True, (0, 0, 0))
+    screen.blit(intro_text, (1150, 695))
     pygame.display.update()

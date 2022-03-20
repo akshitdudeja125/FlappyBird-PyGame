@@ -71,9 +71,11 @@ obstacle_upper_Y = [random.randint(-820, -520) for i in range(4)]
 obstacle_lower_Y = [1100-abs(i) for i in obstacle_upper_Y]
 
 # FONT
+intro_font = pygame.font.Font("intro_font.ttf", 15)
 font_score = pygame.font.Font('Minecraft.ttf', 50)
 font_score_2 = pygame.font.Font('Minecraft.ttf', 150)
 font_score_3 = pygame.font.Font('Minecraft.ttf', 100)
+font_start = pygame.font.Font('Minecraft.ttf', 25)
 
 # SCORE
 score = 0
@@ -107,6 +109,7 @@ while run_state:
     # Score Comparision
     if score > highest_score:
         highest_score = score
+
 
     if game_started:
 
@@ -160,18 +163,6 @@ while run_state:
             play_again = font_score.render(
                 'Auto Replay in Progress!', True, (0, 0, 0))
             screen.blit(play_again, (330, 480))
-            # play_again = font_score.render('press "q" to quit or "r" for restart', True, (0, 0, 0))
-            # screen.blit(play_again, (195, 480))
-
-            # scc = font_score.render('Score', True, (0, 0, 0))
-            # bscc = font_score.render('Best', True, (0, 0, 0))
-            # sc = font_score.render(str(score), True, (0, 0, 0))
-            # bsc = font_score.render(str(highest_score), True, (0, 0, 0))
-            # screen.blit(sc, (525, 405))
-            # screen.blit(bsc, (675,405))
-            # screen.blit(scc, (462, 345))
-            # screen.blit(bscc, (630, 345))
-
             screen.blit(score_Img, (500, 330))
             sc = font_score.render(str(score), True, (0, 0, 0))
             screen.blit(sc, (555, 365))
@@ -179,7 +170,9 @@ while run_state:
             screen.blit(bsc, (675, 365))
             end_game_X += end_game_change
         else:
-            sc = font_score_2.render(str(score), True, (0, 0, 0))
+            sc = font_score_2.render(str(score), True, (0,0,0))
+            screen.blit(sc, (605, 15))
+            sc = font_score_2.render(str(score), True, (255,255,255))
             screen.blit(sc, (600, 10))
 
         # Obstacle Movement
@@ -249,9 +242,17 @@ while run_state:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run_state = False
-        if time.time()-start_time > 10:
+        if time.time()-start_time > 4:
             game_started = True
-        start_screen_text = font_score_3.render('FLAPPY BIRD', True, (0, 0, 0))
-        screen.blit(start_screen_text, (260, 230))
-        # screen.blit(player,(300,370))
+        intro_screen = pygame.image.load('intro_screen.png')
+        screen.blit(intro_screen, (320, 120))
+
+        start_screen_text_2 = font_start.render(
+            'Game starting in ' + str(4-int(time.time()-start_time)), True, (0, 0, 0))
+        screen.blit(start_screen_text_2, (510, 400))
+    
+    intro_text = intro_font.render("©AkiDudeja125", True, (0, 0, 0))
+    screen.blit(intro_text, (5, 695))
+    intro_text = intro_font.render("@akshitdudeja125", True, (0, 0, 0))
+    screen.blit(intro_text, (1150, 695))
     pygame.display.update()
