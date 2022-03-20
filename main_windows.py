@@ -3,7 +3,7 @@ import random
 import keyboard
 from pygame import mixer
 
-speed_background = 7
+speed_background = -7
 
 pygame.init()
 
@@ -32,7 +32,7 @@ lower_part_2 = pygame.image.load('lower_part.png')
 lower_part_2 = pygame.transform.scale(lower_part, (1280, 70))
 lower_part_2_X = 1280
 
-lower_part_change = -speed_background
+speed_background = -speed_background
 
 # BIRD
 player_size = (70, 70)
@@ -63,8 +63,6 @@ obstacle_upper = pygame.transform.scale(obstacle_upper, obstacle_size)
 
 obstacle_lower = pygame.transform.rotate(obstacle_upper, 180)
 
-obstacle_change = -speed_background
-
 obstacle_X = [300, 650, 1000, 1350]
 
 obstacle_upper_Y = [random.randint(-820, -520) for i in range(4)]
@@ -90,8 +88,14 @@ end_game_X = 430
 end_game_Y = 200
 end_game_change = -3
 
+
+# 
+credit = intro_font.render("©AkiDudeja125", True, (0, 0, 0))
+insta = intro_font.render("@akshitdudeja125", True, (0, 0, 0))
+insta_logo = pygame.image.load("insta_logo.png")
+insta_logo = pygame.transform.scale(insta_logo, (15, 15))
+
 # Assigning various variables
-attempt_no=1
 flap = 0
 restarter=0
 sound_played = 0
@@ -154,23 +158,34 @@ while run_state:
                 if flap > 10:
                     flap = 0
             player_Y_change = 7
-            lower_part_change = 0
-            obstacle_change = 0
+            speed_background = 0
             for i in range(len(obstacle_X)):
                 obstacle_X[i] = 2000
             play_again = font1.render('press "q" to quit or "r" for restart', True, (0, 0, 0))
             screen.blit(play_again, (195, 480)) 
             screen.blit(score_Img, (500, 330))
             sc = font1.render(str(score), True, (0, 0, 0))
-            screen.blit(sc, (555, 365))
             bsc = font1.render(str(highest_score), True, (0, 0, 0))
-            screen.blit(bsc, (675, 365))
+            if score<10:
+                screen.blit(sc, (555, 365))
+            else:
+                screen.blit(sc, (542, 365))
+            if highest_score<10:
+                screen.blit(bsc, (675, 365))
+            else:
+                screen.blit(bsc, (663, 365))
             end_game_X += end_game_change
         else:
-            sc = font2.render(str(score), True, (0,0,0))
-            screen.blit(sc, (605, 15))
-            sc = font2.render(str(score), True, (255,255,255))
-            screen.blit(sc, (600, 10))
+            if score<10:
+                sc = font2.render(str(score), True, (0,0,0))
+                screen.blit(sc, (605, 15))
+                sc = font2.render(str(score), True, (255,255,255))
+                screen.blit(sc, (600, 10))
+            else:
+                sc = font2.render(str(score), True, (0,0,0))
+                screen.blit(sc, (555, 15))
+                sc = font2.render(str(score), True, (255,255,255))
+                screen.blit(sc, (550, 10))
 
         # Obstacle Movement
         for i in range(len(obstacle_X)):
@@ -179,7 +194,7 @@ while run_state:
                 score_added = False
                 obstacle_upper_Y[i] = random.randint(-820, -520)
                 obstacle_lower_Y[i] = 1100-abs(obstacle_upper_Y[i])
-            obstacle_X[i] += obstacle_change
+            obstacle_X[i] += speed_background
             screen.blit(obstacle_upper, (obstacle_X[i], obstacle_upper_Y[i]))
             screen.blit(obstacle_lower, (obstacle_X[i], obstacle_lower_Y[i]))
 
@@ -191,8 +206,7 @@ while run_state:
                 elif obstacle_X[i] < -67 and score_added == False:
                     score += 1
                     if score % 5 == 0:
-                        obstacle_change -= 1
-                        lower_part_change -= 1
+                        speed_background -= 1
                     score_added = True
             else:
                 if sound_played == 1:
@@ -203,9 +217,9 @@ while run_state:
 
         # Lower Part Movement
         screen.blit(lower_part, (lower_part_X, 660))
-        lower_part_X += lower_part_change
+        lower_part_X += speed_background
         screen.blit(lower_part_2, (lower_part_2_X, 660))
-        lower_part_2_X += lower_part_change
+        lower_part_2_X += speed_background
         if lower_part_X <= -1280:
             lower_part_X = 0
             lower_part_2_X = 1280
@@ -224,10 +238,7 @@ while run_state:
                     sound_played=0
                     speed_background=7
                     end_game_change = -3
-                    obstacle_change = -speed_background
-                    attempt_no+=1
-                    # if attempt_no>10:
-                    #     break
+
                 if keyboard.is_pressed('q'):
                     run_state=False
                 
@@ -249,8 +260,8 @@ while run_state:
                 game_started = True
         except:
             pass
-    intro_text = intro_font.render("©AkiDudeja125", True, (0, 0, 0))
-    screen.blit(intro_text, (5, 695))
-    intro_text = intro_font.render("@akshitdudeja125", True, (0, 0, 0))
-    screen.blit(intro_text, (1150, 695))
+
+    screen.blit(credit, (5, 695))
+    screen.blit(insta, (1150, 695))
+    screen.blit(insta_logo, (1130, 698))
     pygame.display.update()
