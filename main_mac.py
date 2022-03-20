@@ -20,8 +20,8 @@ background = pygame.image.load('background.png')
 background = pygame.transform.scale(background, screen_dimensions)
 
 # BACKGROUND SOUND
-# mixer.music.load("Background.mpeg")
-# mixer.music.play(-1)
+mixer.music.load("Background.mpeg")
+mixer.music.play(-1)
 
 # Lower Part
 lower_part = pygame.image.load('lower_part.png')
@@ -56,7 +56,7 @@ player_Y_change = 3
 # OBSTACLES
 obstacle_size = (480, 900)
 
-obstacle_upper = pygame.image.load('obstacle_upper.png')
+obstacle_upper = pygame.image.load('obstacle.png')
 obstacle_upper = pygame.transform.scale(obstacle_upper, obstacle_size)
 
 obstacle_lower = pygame.transform.rotate(obstacle_upper, 180)
